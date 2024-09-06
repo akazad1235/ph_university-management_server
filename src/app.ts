@@ -1,8 +1,7 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { ProductRoutes } from './moduler/product/product.route';
-import z from 'zod';
-import { UserRoutes } from './moduler/user/user.route';
+import routeNotFound from './app/middlewares/routeNotFound';
+import router from './app/routes';
 
 const app: Application = express();
 
@@ -13,9 +12,11 @@ app.use(cors());
 //application routes
 
 //call only product routes
-//call only product routes
-app.use('/api/products', ProductRoutes);
-app.use('/api/users', UserRoutes);
+// app.use('/api/products', ProductRoutes);
+// app.use('/api/users', UserRoutes);
+
+// global route
+app.use('/api/v1', router);
 
 app.get('/', (req: Request, res: Response) => {
   try {
@@ -34,27 +35,23 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 //route not fund handler
-app.all('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found',
-  });
-});
+// app.all('*', (req, res) => {
+//   res.status(404).json({
+//     success: false,
+//     message: 'Route not found',
+//   });
+// });
+app.use(routeNotFound);
 
+// Global error-handling middleware
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-  if (error instanceof z.ZodError) {
-    // If it's a Zod validation error
-    res.status(400).json({
-      success: false,
-      message: error.errors, // Detailed validation errors
-    });
-  } else {
-    res.status(400).json({
-      success: false,
-      message: error.message || 'something not working',
-    });
-  }
-  next();
+  return res.status(error.status || 500).json({
+    success: false,
+    message: error.message || 'Something went wrong',
+    error: error,
+  });
+  // Optionally call next() if you have further error handling or logging middleware
+  // next();
 });
 
 export default app;

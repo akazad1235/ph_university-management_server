@@ -1,3 +1,4 @@
+import { NextFunction } from 'express';
 import config from '../../config';
 import { Student } from '../student/student.model';
 import { TStudent } from './../student/student.interface';

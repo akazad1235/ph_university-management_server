@@ -4,7 +4,7 @@ import { TStudent } from './student.interface';
 const studentSchema = new Schema<TStudent>({
   name: {
     type: String,
-    required: true,
+    required: [true, 'name field is requrieds'],
   },
   id: {
     type: String,

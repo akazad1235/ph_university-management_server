@@ -1,19 +1,18 @@
-import { NextFunction, Request, Response } from 'express';
 import { UserServices } from './user.service';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
+import catchAsync from '../../utils/catchAsync';
 
-const createStudent = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { password, student } = req.body;
-    const data = UserServices.createStudentIntoDB(password, student);
-    res.status(200).json({
-      success: true,
-      message: 'Student has been created successfully!',
-      data: data,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+const createStudent = catchAsync(async (req, res) => {
+  const { password, student } = req.body;
+  const data = await UserServices.createStudentIntoDB(password, student);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student has been created successfully!',
+    data: data,
+  });
+});
 
 export const UserController = {
   createStudent,
