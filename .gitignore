@@ -1,8 +1,4 @@
-# Ignore node_modules directory
 node_modules/
-# Ignore logs
-logs
-*.log
-npm-debug.log*
-# Ignore .env file (if you have one for environment variables)
+dist/
 .env
+.vercel
