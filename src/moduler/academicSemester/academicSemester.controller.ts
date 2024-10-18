@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 const createAcademicSemester = catchAsync(async (req, res) => {
   const body = req.body;
   const storeService =
-    AcademicSemesterService.createAcademicSemesterIntoDB(body);
+    await AcademicSemesterService.createAcademicSemesterIntoDB(body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -15,6 +15,30 @@ const createAcademicSemester = catchAsync(async (req, res) => {
   });
 });
 
+const getAllSemester = catchAsync(async (req, res) => {
+  const result = await AcademicSemesterService.getAllAcademicSemesterFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic semesters fetched successfully!',
+    data: result,
+  });
+});
+const showSepecificAcademicSemester = catchAsync(async (req, res) => {
+  const result = await AcademicSemesterService.showSpecificAcademicSemester(
+    req.params,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic semesters fetched successfully!',
+    data: result,
+  });
+});
+
 export const AcademicSemesterController = {
   createAcademicSemester,
+  getAllSemester,
+  showSepecificAcademicSemester,
 };

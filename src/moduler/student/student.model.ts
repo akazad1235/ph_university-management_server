@@ -6,15 +6,16 @@ const studentSchema = new Schema<TStudent>({
     type: String,
     required: [true, 'name field is requrieds'],
   },
-  id: {
-    type: String,
-    required: true,
-  },
   user: {
     type: Schema.Types.ObjectId,
     required: [true, 'User id is required'],
     unique: true,
     ref: 'User',
+  },
+  academicSemester: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'Academic id is required'],
+    ref: 'AcademicSemester',
   },
   email: {
     type: String,

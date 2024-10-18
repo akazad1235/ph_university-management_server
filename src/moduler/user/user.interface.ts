@@ -5,6 +5,7 @@ export type Tuser = {
   role: 'admin' | 'student' | 'faculty';
   status: 'in-progress' | 'blocked';
   isDeleted: boolean;
+  timestamps: Date;
 };
 
 export type TNewUser = {
