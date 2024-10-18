@@ -30,10 +30,17 @@ const updateSepcificAcademicFaulty = async (payload: Any) => {
 
   return updatedData;
 };
+const deleteSepcificAcademicFaulty = async (payload: Any) => {
+  const id = payload.id;
+  const updatedData = await AcademicFaculty.findByIdAndDelete(id);
+
+  return updatedData;
+};
 
 export const AcademicFacultyService = {
   createAcademicfacultyIntoDB,
   getAllAcademicFacultyIntoDB,
   getSpecificAcademicFaculty,
   updateSepcificAcademicFaulty,
+  deleteSepcificAcademicFaulty,
 };

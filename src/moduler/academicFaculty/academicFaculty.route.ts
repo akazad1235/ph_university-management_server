@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/index', AcademicFacultyController.getAllAcademicFaculty);
 router.get('/show/:id', AcademicFacultyController.getSpecificAcademicFaculty);
 router.patch('/update/:id', AcademicFacultyController.updateAcademicFaculty);
-// router.post('/delete/:id', AcademicFacultyController.createAcademicFaculty);
+router.delete('/delete/:id', AcademicFacultyController.deleteAcademicFaculty);
 
 router.post(
   '/create-academic-faculty',
