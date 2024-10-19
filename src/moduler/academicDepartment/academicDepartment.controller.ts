@@ -14,7 +14,8 @@ const createAcademicDepartment = catchAsync(async (req, res) => {
   });
 });
 const getAllAcademicDepartment = catchAsync(async (req, res) => {
-  const result = AcademicDepartmentService.getAllAcademicDepartmentIntoDB();
+  const result =
+    await AcademicDepartmentService.getAllAcademicDepartmentIntoDB();
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -23,12 +24,14 @@ const getAllAcademicDepartment = catchAsync(async (req, res) => {
   });
 });
 const getSpecificAcademicDepartment = catchAsync(async (req, res) => {
-  //const result = AcademicFacultyService.getSpecificAcademicFaculty(req.body);
+  const id = req.params;
+  const result =
+    await AcademicDepartmentService.getSpecificAcademicDepartment(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Faculty fetch success ss',
-    data: req.body,
+    message: 'Academic Department fetch success ss',
+    data: result,
   });
 });
 // update academic faulties
@@ -43,7 +46,7 @@ const updateAcademicDepartment = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Faculty fetch for update using patch',
+    message: 'Academic department successfully updated',
     data: updateService,
   });
 });
@@ -55,7 +58,7 @@ const deleteAcademicDepartment = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Faculty Successfully Deleted',
+    message: 'Academic Department Successfully Deleted',
     data: result,
   });
 });

@@ -7,16 +7,13 @@ const createAcademicDepartmentIntoDB = async (payload: TAcademicDepartment) => {
   return result;
 };
 const getAllAcademicDepartmentIntoDB = async () => {
-  const result = await AcademicDepartment.find();
+  const result = await AcademicDepartment.find().populate('academicFaculty');
   return result;
 };
 const getSpecificAcademicDepartment = async (payload: Any) => {
-  // const result = await AcademicFaculty.findByIdAndUpdate(
-  //   id, // The ID of the document you want to update
-  //   { name }, // The fields to update
-  //   { new: true }, // Option to return the updated document
-  // );
-  const result = await AcademicDepartment.findById('66ec6d9a34abe24717725f67');
+  const result = await AcademicDepartment.findById(payload.id).populate(
+    'academicFaculty',
+  );
   return result;
 };
 const updateSepcificAcademicDepartment = async (payload: Any) => {
