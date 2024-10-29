@@ -17,9 +17,9 @@ router.delete(
 
 router.post(
   '/create-academic-department',
-  validateRequest(
+  validateRequest([
     AcademicDepartmentValidation.createAcademicDepartmentValidateSchema,
-  ),
+  ]),
   AcademicFacultyController.createAcademicDepartment,
 );
 

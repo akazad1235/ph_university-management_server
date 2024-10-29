@@ -19,8 +19,8 @@ const getSpecificAcademicDepartment = async (payload: Any) => {
 const updateSepcificAcademicDepartment = async (payload: Any) => {
   const { id, ...updateFields } = payload; // Destructure the id and the fields to update
 
-  const updatedData = await AcademicDepartment.findByIdAndUpdate(
-    id,
+  const updatedData = await AcademicDepartment.findOneAndUpdate(
+    { _id: id },
     updateFields,
     { new: true },
   );

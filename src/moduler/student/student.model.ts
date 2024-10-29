@@ -20,6 +20,7 @@ const studentSchema = new Schema<TStudent>({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   contactNo: {
     type: String,

@@ -7,7 +7,7 @@ import { User } from './user.model';
  */
 
 const firstGenerateStudentId = async (payload: TAcademicSemester) => {
-  // last stuent id get
+  // last student id get
   const lastStudent = await User.findOne({ role: 'student' }) // Filter by role "student"
     .sort({ createdAt: -1 }) // Sort by createdAt in descending order
     .exec();
