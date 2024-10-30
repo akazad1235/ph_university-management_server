@@ -6,6 +6,7 @@ const createUserValidateSchema = z.object({
       .string({
         invalid_type_error: 'Password must be a string',
       })
+      .min(8, { message: 'password maximum 20 charecters' })
       .max(20, { message: 'password maximum 20 charecters' }),
   }),
 });

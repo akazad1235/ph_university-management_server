@@ -16,7 +16,7 @@ const createStudentIntoDB = async (password: Tuser, studentData: TStudent) => {
 
   // find academic semester data
   const findAcademicSemester = await AcademicSemester.findById(
-    '66f770624b938a79106bb32b',
+    studentData.academicSemester,
   );
 
   if (!findAcademicSemester) {
@@ -38,10 +38,6 @@ const createStudentIntoDB = async (password: Tuser, studentData: TStudent) => {
     const userStudent = new User(userData);
     const newUser = await userStudent.save({ session });
 
-    if (!newUser) {
-      throw new Error('User creation failed');
-    }
-
     // associate user id with student data
     studentData.id = newUser.id;
     studentData.user = newUser._id;
@@ -58,8 +54,9 @@ const createStudentIntoDB = async (password: Tuser, studentData: TStudent) => {
   } catch (error) {
     // abort transaction if something goes wrong
     await session.abortTransaction();
-    console.error('Transaction failed:', error);
-    throw new Error('Failed to create student');
+    //console.error('Transaction failed:', error);
+
+    throw error;
   }
 };
 

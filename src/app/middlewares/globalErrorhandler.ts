@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { ZodError } from 'zod';
 
 const globalErrorHandler = (
@@ -7,7 +8,9 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  let statusCode = err.statusCode || 500;
+  console.log(err);
+
+  const statusCode = err.statusCode || 500;
   let message = err.message || 'something went wrong!';
 
   type TErrorSource = {
@@ -15,7 +18,7 @@ const globalErrorHandler = (
     message: string;
   }[];
 
-  const errorSource: TErrorSource = [
+  let errorSource: TErrorSource = [
     {
       path: '',
       message: 'Something went wrong!',
@@ -23,14 +26,30 @@ const globalErrorHandler = (
   ];
 
   if (err instanceof ZodError) {
-    statusCode = 400;
-    message = 'zod errors';
+    // Send a response with the validation error details
+    return res.status(400).json({
+      success: false,
+      message: 'Validation Error',
+      errors: err.issues.map((issue) => ({
+        path: issue?.path[issue.path.length - 1],
+        message: issue.message,
+      })),
+    });
+  }
+  if (err instanceof mongoose.Error.ValidationError) {
+    // Handle Mongoose validation errors
+    message = 'mongoose validation error';
+    errorSource = Object.values(err.errors).map((error) => ({
+      path: error.path,
+      message: error.message,
+    }));
   }
 
   return res.status(statusCode).json({
     success: false,
     message,
-    error: err,
+    errorSource,
+    // error: err,
   });
 };
 
