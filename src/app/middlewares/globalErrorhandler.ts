@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { ZodError } from 'zod';
+import AppError from '../errors/AppErros';
 
 const globalErrorHandler = (
   err: any,
@@ -44,12 +45,42 @@ const globalErrorHandler = (
       message: error.message,
     }));
   }
+  // if any cast error get
+  if (err.name == 'CastError') {
+    message = 'invalid id';
+    errorSource = [
+      {
+        path: err.path,
+        message: 'Your id is invalid',
+      },
+    ];
+  }
+  // if any app error get
+  if (err instanceof AppError) {
+    message = err.message;
+    errorSource = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
+  }
+  // if any app error get
+  if (err instanceof Error) {
+    message = err.message;
+    errorSource = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
+  }
 
   return res.status(statusCode).json({
     success: false,
     message,
     errorSource,
-    // error: err,
+    error: err,
   });
 };
 
