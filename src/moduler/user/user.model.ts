@@ -48,4 +48,15 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
+// using query middleware user password exclude
+userSchema.pre('find', function (next) {
+  this.select('-password'); // Automatically exclude password
+  next();
+});
+
+userSchema.pre('findOne', function (next) {
+  this.select('-password'); // Automatically exclude password
+  next();
+});
+
 export const User = model<Tuser>('User', userSchema);
