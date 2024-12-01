@@ -51,7 +51,10 @@ const getAllStudentIntoDB = async (query: Record<string, unknown>) => {
   // }
   // const paginateQeury = await limitQuery.skip(skip);
 
-  const studentQuery = new QueryBuilder(Student.find(), query)
+  const studentQuery = new QueryBuilder(
+    Student.find().populate('academicSemester').populate('user'),
+    query,
+  )
     .search(studentSerachFields)
     .filter()
     .sort()
